@@ -1,8 +1,4 @@
-% Feedback cancellation in  Digital Hearing Aid
-% September 2017
-% Somanath Pradhan
-% Use of this code with out prior permission is a crime
-%%  *************************************************************************
+
 clc;
 close all;
 clear all;
@@ -57,18 +53,6 @@ for n=1:N
     h=aa_1;
     u(n)=F_amp*e_delay(n);%loudspeaker output
 
-    %% Frequency Shifting
-    
-%     uu(n)=F_amp*e_delay(n);%loudspeaker output
-%     
-%     uu1(n+Hilbert_Delay)=uu(n);
-%     uu1_u(n)=uu1(n)*cos(2*pi*n*-3);% Multiply Cos function with shift 3 Hz left side
-%   
-%     u_tap=[uu(n); u_tap(1:end-1)];
-%     uu2(n)=u_tap'*H_hilbert;
-%     uu2_u(n)=uu2(n)*sin(2*pi*n*-3);% Multiply Sin function with shift 3 Hz left side
-%     u(n)=uu1_u(n)+uu2_u(n);% Frequency Shifting Operation
-%% 
     feedback_tap=[u(n); feedback_tap(1:end-1)];
     feedback_cancel_tap=[u(n); feedback_cancel_tap(1:end-1)];
     f(n)=feedback_tap'*h;%output of feedback path-1
@@ -118,9 +102,6 @@ end
 %% Performance Measures
 fs=8000;  
 t = linspace(0,(N-1)/fs,N);
-
-
- 
 
 figure;
 plot(t,MIS,'r','linewidth',2);grid on;
