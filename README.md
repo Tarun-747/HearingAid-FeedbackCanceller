@@ -8,7 +8,6 @@ This project focuses on improving acoustic feedback cancellation in digital hear
 - **Prediction Error Method (PEM)**: Applies PEM to reduce bias effects caused by the finite correlation between the microphone input signal and the loudspeaker input signal.
 - **Subband Implementation**: Implements the adaptive filter in the subband domain to improve convergence rates and reduce computational load.
 - **Delayless Multiband-Structured Subband**: Incorporates a delayless subband approach to minimize aliasing, band-edge effects, and signal path delay.
-- **Improved Proportionate Learning Scheme**: Enhances convergence behavior by leveraging the sparse nature of the acoustic feedback path.
 
 ## System Overview
 The system is designed to continuously estimate and cancel the acoustic feedback signal in a digital hearing aid. It comprises several components, including:
