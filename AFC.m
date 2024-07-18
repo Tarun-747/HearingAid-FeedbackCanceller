@@ -1,9 +1,8 @@
-%% Feedback Cancellation in Hearing Aids using Adaptive Decorrelation NLMS
-% 04 April 2017
-% Based on prediction error method, which used Levinson Durbin Algorithm
+
 clc;
 clear all;
 %close all;
+
 %% Initialization
 speech_1=load('INPUT.mat');
 speech=speech_1.INPUT;
@@ -33,32 +32,9 @@ l1_tap=zeros(1,length(l_filter));
 l2_tap=zeros(1,length(l_filter));
 frame_size=160;
 pem_tap=zeros(1,frame_size);
-deltaW=zeros(1,length_input);
-h1=zeros(1,length_input);
 
 V1=load('V.mat');% Impulse response
-%variance =15;
-SNR=5;
-n_std=10^(-SNR/20)*sqrt(var(speech));
-noise=n_std*randn(length(speech),1);
-noise=1*noise;
 
-outlierr=zeros(1,length_input);
-outlierr(1e5)=0;
-
-% Adjust the outlier generation
-% n_std = 10^(-SNR/20) * sqrt(var(speech));
-% outlierr = zeros(length(speech), 1); % Initialize the outlier vector
-% 
-% % Probability and magnitude for outliers
-% outlier_prob = 0.01; % Probability of an outlier (adjust to control sparsity)
-% outlier_mean = 0; % Mean of the Gaussian distribution
-% outlier_std_dev = n_std; % Standard deviation of the Gaussian distribution
-% 
-% % Generate sparse Gaussian outliers
-% outlier_indices = rand(length(speech), 1) < outlier_prob; % Logical indices for outliers
-% outlierr(outlier_indices) = outlier_mean + outlier_std_dev * randn(sum(outlier_indices), 1); % Assign Gaussian outliers
-%outlierr=0*outlierr;
 % Algorithm name
 % Parameters
 %%
@@ -74,10 +50,7 @@ mu_ZANLMS=2e-3;
 rho_RZA=1e-8;
 eps_RZA=800;
 mu_RZANLMS=2e-3;
-%l0-NLMS
-mu_l0NLMS=2e-3;
-eps_l0=1e-2;
-rho_l0=1e-20;
+
 delta=1e-8;
 fft_length=120;
  %% Feedback Cancellation
@@ -86,7 +59,7 @@ fft_length=120;
      forward_opt(n)=fp_gain*error_delayed(n);
      feedback_tap=[forward_opt(n) feedback_tap(1:end-1)];
      feedback_signal(n)=feedback_tap*feedback_path';
-     mic_signal(n) = speech(n) + feedback_signal(n) + noise(n) + outlierr(n);
+     mic_signal(n) = speech(n) + feedback_signal(n);
      canceller_copy_tap=[forward_opt(n) canceller_copy_tap(1:end-1)];
      canceller_copy_opt(n)=canceller_copy_tap*feedback_canceller_copy';
      error(n)= mic_signal(n)-canceller_copy_opt(n);
@@ -118,9 +91,7 @@ fft_length=120;
      %RZA-NLMS
      %feedback_canceller=ez -rho_RZA*sign(ez)./(1+eps_RZA*abs(ez)) + (mu_RZANLMS/(weight_update_tap*weight_update_tap'+delta))*weight_update_tap.*l1_opt(n); % RZA_NLMS Weight Update
      
-     %New l0 norm -NLMS
-     %feedback_canceller=ez -rho_l0*((ez)./(ez.^2+eps_l0^2)-(ez.^3)./(ez.^2+eps_l0^2).^2) + (mu_l0NLMS/(weight_update_tap*weight_update_tap'+delta))*weight_update_tap.*l1_opt(n); % RZA_NLMS Weight Update
-     %%%%%%%%%%%%%%%%%%%%%%%%
+     
      feedback_canceller_copy=feedback_canceller;
 %      figure(1)
 %      plot(feedback_canceller_copy);
@@ -157,9 +128,7 @@ plot(MIS);
 xlabel('Samples');
 ylabel('MIS (dB)');
  %% Testing
-%  sound(speech(1:100000),16000);   % Original speech
-%  sound(mic_signal(1:100000),16000); % Speech + Feedback
-%  sound(forward_opt(1:100000),16000); % As heard by the user
+
  audiowrite('Processed_Basic.wav',forward_opt(end-50000:end),8000);
- audiowrite('Clean_Speech.wav',speech(end-50000:end)+noise(end-50000:end),8000);
+ audiowrite('Clean_Speech.wav',speech(end-50000:end),8000);
  pesq_score=pesq('Clean_Speech.wav','Processed_Basic.wav')
