@@ -25,8 +25,3 @@ The system is designed to continuously estimate and cancel the acoustic feedback
 
 ## Simulation and Results
 The simulation study demonstrates the improved performance of the proposed feedback cancellation scheme in terms of convergence speed and speech quality. The proposed approach shows significant enhancement in feedback cancellation compared to traditional methods.
-
-
-```bash
-git clone https://github.com/yourusername/feedback-canceller.git
-cd feedback-canceller
