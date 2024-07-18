@@ -1,4 +1,4 @@
-# Delayless Multiband-Structured Subband Adaptive Feedback Canceller for Digital Hearing Aids
+# Improved Proportionate Delayless Multiband-Structured Subband Adaptive Feedback Canceller for Digital Hearing Aids
 
 ## Introduction
 This project focuses on improving acoustic feedback cancellation in digital hearing aids using a proportionate delayless multiband-structured subband adaptive feedback canceller. Acoustic feedback is a common issue in behind-the-ear (BTE) digital hearing aids, which can significantly degrade the performance of the device. This project implements an adaptive filter to address this issue effectively.
@@ -23,4 +23,10 @@ The system is designed to continuously estimate and cancel the acoustic feedback
 ### Delayless Subband Implementation
 - The adaptive filter operates in the subband domain, splitting the input signal into multiple subbands using an analysis filter bank. The subband signals are then processed and combined using a synthesis filter bank.
 
-### Improved Pro
+## Simulation and Results
+The simulation study demonstrates the improved performance of the proposed feedback cancellation scheme in terms of convergence speed and speech quality. The proposed approach shows significant enhancement in feedback cancellation compared to traditional methods.
+
+
+```bash
+git clone https://github.com/yourusername/feedback-canceller.git
+cd feedback-canceller
